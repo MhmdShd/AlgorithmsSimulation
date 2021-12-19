@@ -17,7 +17,7 @@ import random
 
 from Alogs import *
 
-file = open('Simulationn-algo.txt','w')  # open Simulation file to write data
+file = open('Simulationn-algo.txt','w')  # open/create Simulation file to write data
 
 
 root = Tk()   # Application initialization
@@ -71,29 +71,52 @@ def drawData(data,color):
 # Generate random Array values ( rectangle height )
 def Generate():
     global data
+
+    # Getting values from user input
     minval = int(MinEntry.get())
     maxval = int(MaxEntry.get())
     size = int(sizeEntry.get())
+
+
+    # settings some conditions for the values
     if minval > maxval : minval,maxval=maxval,minval
     if minval<0:minval=0
     if maxval>830:maxval=830
     if size < 3 : size = 3
-    data = []
+
+
+    data = [] # emptying data array
+
+    # generating new random data
     for x in range(size):
         data.append((random.randrange(minval,maxval+1)))
+
+    # drawing the data
     drawData(data,['red' for x in range(len(data))])
 
 
+
+# simulation functions
 def simulate_quick():
     end = 0
     global data
+
+    # cloning data array
     Data = data
+
+    # calling function 500 times for average run time
     for i in range(500):
         start = perf_counter_ns()
         quick_sort(Data, 0, size - 1, drawData, 0)
         end += (perf_counter_ns() - start)/(10**6)
+
+    # writing data to file
     file.write(f'\n     Quick Sort : {end/500} ms')
+
+    # writing data to terminal
     print(f'Quick Sort for n = {size} DONE!! {end/500} ms')
+
+# same comments for the rest of these simulation functions
 def simulate_bubble():
     end = 0
     global data
@@ -165,17 +188,27 @@ def simulate_counting():
 def Simulate():
     global size
     size = 50
+
+    # setting data for simulation
     MinEntry.delete(0,'end')
     MinEntry.insert(0,'1')
     MaxEntry.delete(0,'end')
     MaxEntry.insert(0,'830')
     speedScale.set(0)
     visual.set(0)
+
+    # simulating from size = 50 to size = 500 (increments by 10)
     while size <= 500:
+
+        # setting new size and generating new data
         sizeEntry.delete(0,'end')
         sizeEntry.insert(0,size)
         Generate()
+
+        # writing data to file for organizing
         file.write(f'\nSize = {size} : ')
+
+        # calling simulation functions
         simulate_merge()
         simulate_counting()
         simulate_quick()
@@ -183,6 +216,7 @@ def Simulate():
         simulate_bubble()
         simulate_selection()
         simulate_insertion()
+
         size += 10
 
 

@@ -22,7 +22,6 @@ def max_heapify(data, i, size, drawData, speed, visual):
         drawData(data, getColorheap(len(data), i, large, l, r))
 
     sleep(speed)
-
 def build_max_heap(data, drawData, speed, visual):
     size = len(data)
     for i in range(floor(len(data) / 2) - 1, -1, -1):
