@@ -13,17 +13,8 @@ from time import perf_counter_ns
 from tkinter import *
 from tkinter import ttk
 import random
-import multiprocessing as mp
 
 
-#alog files
-# from quicksort import quick_sort
-# from selectionsort import selection_sort
-# from bubblesort import bubble_sort
-# from insertionsort import insertion_sort
-# from mergesort import merge_sort
-# from maxheap import heap_sort
-# from countingsort import counting_sort
 from Alogs import *
 
 file = open('Simulationn-algo.txt','w')  # open Simulation file to write data
@@ -185,13 +176,13 @@ def Simulate():
         sizeEntry.insert(0,size)
         Generate()
         file.write(f'\nSize = {size} : ')
-        mp.Process(target=simulate_heap).run()
-        mp.Process(target=simulate_counting).run()
-        mp.Process(target=simulate_merge).run()
-        mp.Process(target=simulate_quick).run()
-        mp.Process(target=simulate_selection).run()
-        mp.Process(target=simulate_bubble).run()
-        mp.Process(target=simulate_insertion).run()
+        simulate_merge()
+        simulate_counting()
+        simulate_quick()
+        simulate_heap()
+        simulate_bubble()
+        simulate_selection()
+        simulate_insertion()
         size += 10
 
 
@@ -307,6 +298,8 @@ Button(UI_frame,text='Start',command=startAlgorithm,bg='green').grid(row=0,colum
 
 
 Label(UI_frame,text='when clicked, check terminal:',bg = 'grey').grid(row=0,column=5,pady=5,padx=5)
+
+
 # simulation button (don't click, it will take alot of time to finish)
 Button(UI_frame,text='Simulate',command=Simulate,bg='red').grid(row=0,column=6,padx=5,pady=5)
 
