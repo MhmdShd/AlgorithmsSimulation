@@ -22,11 +22,15 @@ def max_heapify(data, i, size, drawData, speed, visual):
         drawData(data, getColorheap(len(data), i, large, l, r))
 
     sleep(speed)
+
+
 def build_max_heap(data, drawData, speed, visual):
     size = len(data)
     for i in range(floor(len(data) / 2) - 1, -1, -1):
         sleep(speed)
         max_heapify(data, i, size, drawData, speed, visual)
+
+
 def heap_sort(data, drawData, speed, visual=False):
     build_max_heap(data, drawData, speed, visual)
     size = len(data)
@@ -34,8 +38,10 @@ def heap_sort(data, drawData, speed, visual=False):
         data[0], data[i] = data[i], data[0]
         size = size - 1
         max_heapify(data, 0, size, drawData, speed, visual)
+
+
 # getting proper color
-def getColorheap(datalen,I,large,l,r):
+def getColorheap(datalen, I, large, l, r):
     color = []
     for i in range(datalen):
         if i <= datalen:
@@ -51,27 +57,22 @@ def getColorheap(datalen,I,large,l,r):
     return color
 
 
-
 #  Insertion Sort
 
-def insertion_sort(data,drawData,speed,visual = False):
-    for j in range(1,len(data)):
+def insertion_sort(data, drawData, speed, visual=False):
+    for j in range(1, len(data)):
         x = data[j]
-        i=j-1
-        while i>=0 and data[i] > x:
+        i = j - 1
+        while i >= 0 and data[i] > x:
             sleep(speed)
-            data[i+1] = data[i]
-            i-=1
-
+            data[i + 1] = data[i]
+            i -= 1
 
             # drawing if user chose to
             if visual == True:
                 drawData(data, ['green' if x == j or x == i else 'red' for x in range(len(data))])
 
-        data[i+1] = x
-
-
-
+        data[i + 1] = x
 
 
 # Selection Sort
@@ -93,9 +94,6 @@ def selection_sort(data, drawData, speed, visual=False):
         data[i], data[small] = data[small], data[i]
 
 
-
-
-
 # Merge Sort
 
 def merge(data, head, idx, tail, drawData, speed, visual=False):
@@ -108,7 +106,7 @@ def merge(data, head, idx, tail, drawData, speed, visual=False):
         left[i] = data[head + i]
 
         # drawing if user chose to
-        if visual == True:
+        if visual:
             drawData(data, getColor(len(data), head, tail))
 
     for i in range(n2):
@@ -116,7 +114,7 @@ def merge(data, head, idx, tail, drawData, speed, visual=False):
         right[i] = data[idx + i + 1]
 
         # drawing if user chose to
-        if visual == True:
+        if visual:
             drawData(data, getColor(len(data), head, tail))
 
     left[n1] = float('inf')  # setting the value to infinity
@@ -127,7 +125,7 @@ def merge(data, head, idx, tail, drawData, speed, visual=False):
     for x in range(head, tail + 1):
 
         # drawing if user chose to
-        if visual == True:
+        if visual:
             drawData(data, getColor(len(data), head, tail))
 
         if left[i] <= right[j]:
@@ -136,12 +134,16 @@ def merge(data, head, idx, tail, drawData, speed, visual=False):
         else:
             data[x] = right[j]
             j += 1
+
+
 def merge_sort(data, head, tail, drawData, speed, visual=False):
     if head < tail:
         idx = floor((head + tail) / 2)
         merge_sort(data, head, idx, drawData, speed, visual)
         merge_sort(data, idx + 1, tail, drawData, speed, visual)
         merge(data, head, idx, tail, drawData, speed, visual)
+
+
 # getting proper color
 def getColor(datalen, head, tail):
     color = []
@@ -157,8 +159,6 @@ def getColor(datalen, head, tail):
     return color
 
 
-
-
 # Bubble Sort
 
 def bubble_sort(data, drawData, speed, visual=False):
@@ -172,8 +172,6 @@ def bubble_sort(data, drawData, speed, visual=False):
                     drawData(data, ['green' if x == j or x == j + 1 else 'red' for x in range(len(data))])
 
                 sleep(speed)
-
-
 
 
 # Merge Sort
@@ -203,22 +201,24 @@ def partition(data, head, tail, drawData, speed, visual=False):
             sleep(speed)
             drawData(data, getColorquick(len(data), head, tail, border, j))
 
-
     # drawing if user chose to
     if visual == True:
         sleep(speed)
         drawData(data, getColorquick(len(data), head, tail, border, tail, True))
 
-
     data[border + 1], data[tail] = data[tail], data[border + 1]
 
     return border + 1
+
+
 def quick_sort(data, head, tail, drawData, timeTick, visual=False):
     if head < tail:
         p = partition(data, head, tail, drawData, timeTick, visual)
 
         quick_sort(data, head, p - 1, drawData, timeTick, visual)
         quick_sort(data, p + 1, tail, drawData, timeTick, visual)
+
+
 # getting proper color
 def getColorquick(datalen, head, tail, border, currId, isSwapping=False):
     color = []
@@ -240,7 +240,6 @@ def getColorquick(datalen, head, tail, border, currId, isSwapping=False):
     return color
 
 
-
 # Counting Sort
 def counting_sort(data, b, k, drawData, speed, visual=False):
     c = [0] * (k + 1)
@@ -253,7 +252,7 @@ def counting_sort(data, b, k, drawData, speed, visual=False):
         b[c[data[j]] - 1] = data[j]
 
         # drawing if user chose to
-        if visual == True:
+        if visual:
             drawData(b, ['green' if x == b[j] else 'blue' for x in range(len(data))])
 
         sleep(speed)

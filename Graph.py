@@ -4,19 +4,19 @@ import matplotlib.pyplot as plt
 import json
 import numpy as np
 
+
 def Plot():
-    file = open('Simulation-algo.txt','r')
+    file = open('Simulation-algo.txt', 'r')
     data = json.loads(file.read())
 
-
     size = []
-    Insertion =[]
-    Merge =[]
-    Heap =[]
-    Quick =[]
-    Bubble =[]
-    Selection =[]
-    Counting =[]
+    Insertion = []
+    Merge = []
+    Heap = []
+    Quick = []
+    Bubble = []
+    Selection = []
+    Counting = []
 
     for i in range(len(data['Simulation Details'])):
         size.append(float(data['Simulation Details'][i]['Size']))
@@ -37,7 +37,6 @@ def Plot():
     _Counting = np.array(Counting)
     _size = np.array(size)
 
-
     plt.plot(_size, _Quick, label='Quick')
     plt.plot(_size, _Bubble, label='Bubble')
     plt.plot(_size, _Selection, label='Selection')
@@ -50,4 +49,6 @@ def Plot():
     plt.title("Different Sorting Algorithms")
     plt.legend()
     plt.show()
+
+
 Plot()
