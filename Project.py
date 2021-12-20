@@ -34,7 +34,6 @@ root.config(bg = 'black')   # Applicatino Background
 
 data = []  # main array
 
-Data = []  # Clone array
 
 size = 0  # size of the array for simulation
 
