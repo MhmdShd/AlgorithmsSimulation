@@ -38,7 +38,7 @@ userArray = []  # array for user
 def drawData(data, color):
     # canvas settings
     canvas.delete('all')
-    c_height = 680
+    c_height = 700
     c_width = 1800
 
     # var width
@@ -72,7 +72,7 @@ def Generate(visual=True):
     # settings some conditions for the values
     if minval > maxval: minval, maxval = maxval, minval
     if minval < 0: minval = 0
-    if maxval > 680: maxval = 680
+    if maxval > 700: maxval = 700
     if size < 3: size = 3
 
     data = []  # emptying data array
@@ -99,7 +99,7 @@ def Simulate():
     MinEntry.delete(0, 'end')
     MinEntry.insert(0, '1')
     MaxEntry.delete(0, 'end')
-    MaxEntry.insert(0, '680')
+    MaxEntry.insert(0, '700')
     speedScale.set(0)
     visual.set(0)
 
@@ -375,7 +375,7 @@ def openFile():
 
 UI_frame = Frame(root, width=1800, height=450, bg='grey')
 UI_frame.grid(row=0, column=0, padx=10, pady=5)
-canvas = Canvas(root, width=1800, height=680, bg='white')
+canvas = Canvas(root, width=1800, height=700, bg='white')
 canvas.grid(row=1, column=0, pady=5)
 
 # row[0]
