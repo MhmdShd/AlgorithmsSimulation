@@ -34,6 +34,7 @@ root.config(bg = 'black')   # Applicatino Background
 
 data = []  # main array
 
+Data = []  # Clone array
 
 size = 0  # size of the array for simulation
 
@@ -71,7 +72,7 @@ def drawData(data,color):
 # Generate random Array values ( rectangle height )
 def Generate():
     global data
-
+    global Data
     # Getting values from user input
     minval = int(MinEntry.get())
     maxval = int(MaxEntry.get())
@@ -90,6 +91,7 @@ def Generate():
     # generating new random data
     for x in range(size):
         data.append((random.randrange(minval,maxval+1)))
+    Data = data
 
     # drawing the data
     drawData(data,['red' for x in range(len(data))])
@@ -99,92 +101,134 @@ def Generate():
 # simulation functions
 def simulate_quick():
     end = 0
-    global data
-
-    # cloning data array
-    Data = data
-
+    x = data.copy()
+    print()
+    print(x)
     # calling function 500 times for average run time
     for i in range(500):
         start = perf_counter_ns()
-        quick_sort(Data, 0, size - 1, drawData, 0)
-        end += (perf_counter_ns() - start)/(10**6)
+        quick_sort(x, 0, size - 1, drawData, 0)
+        end += (perf_counter_ns() - start)/(500000000)
 
     # writing data to file
-    file.write(f'\n     Quick Sort : {end/500} ms')
+    file.write(f'\n         "Quick Sort" : "{end}",')
 
     # writing data to terminal
-    print(f'Quick Sort for n = {size} DONE!! {end/500} ms')
+    print(f'Quick Sort for n = {size} DONE!! {end} ms')
 
 # same comments for the rest of these simulation functions
 def simulate_bubble():
     end = 0
-    global data
-    Data = data
+    x = data.copy()
+    print()
+    print(x)
     for i in range(500):
         start = perf_counter_ns()
-        bubble_sort(Data,drawData,0)
-        end += (perf_counter_ns() - start)/(10**6)
-    file.write(f'\n     Bubble Sort : {end/500} ms')
-    print(f'Bubble Sort for n = {size} DONE!! {end/500} ms')
+        bubble_sort(x,drawData,0)
+        end += (perf_counter_ns() - start)/(500000000)
+    file.write(f'\n         "Bubble Sort" : "{end}",')
+    print(f'Bubble Sort for n = {size} DONE!! {end} ms')
 def simulate_insertion():
     end = 0
-    global data
-    Data = data
+    x = data.copy()
+    print()
+    print(x)
     for i in range(500):
         start = perf_counter_ns()
-        insertion_sort(Data,drawData,0)
-        end += (perf_counter_ns() - start)/(10**6)
-    file.write(f'\n     Insertion Sort : {end/500} ms')
-    print(f'Insertion Sort for n = {size} DONE!! {end/500} ms')
+        insertion_sort(x,drawData,0)
+        end += (perf_counter_ns() - start)/(500000000)
+    file.write(f'\n         "Insertion Sort" : "{end}"')
+    print(f'Insertion Sort for n = {size} DONE!! {end} ms')
 def simulate_selection():
     end = 0
-    global data
-    Data = data
+    x = data.copy()
+    print()
+    print(x)
     for i in range(500):
         start = perf_counter_ns()
-        selection_sort(Data,drawData,0)
-        end += (perf_counter_ns() - start)/(10**6)
-    file.write(f'\n     Selection Sort : {end/500} ms')
-    print(f'Selection Sort for n = {size} DONE!! {end/500} ms')
+        selection_sort(x,drawData,0)
+        end += (perf_counter_ns() - start)/(500000000)
+    file.write(f'\n         "Selection Sort" : "{end}",')
+    print(f'Selection Sort for n = {size} DONE!! {end} ms')
 def simulate_merge():
     end = 0
-    global data
-    Data = data
+    x = data.copy()
+    print()
+    print(x)
     for i in range(500):
         start = perf_counter_ns()
-        merge_sort(Data,0,size-1,drawData,0)
-        end += (perf_counter_ns() - start)/(10**6)
-    file.write(f'\n     Merge Sort : {end/500} ms')
-    print(f'Merge Sort for n = {size} DONE!! {end/500} ms')
+        merge_sort(x,0,size-1,drawData,0)
+        end += (perf_counter_ns() - start)/(500000000)
+    file.write(f'\n         "Merge Sort" : "{end}",')
+    print(f'Merge Sort for n = {size} DONE!! {end} ms')
 def simulate_heap():
     end = 0
-    global data
-    Data = data
+    x = data.copy()
+    print()
+    print(x)
     for i in range(500):
         start = perf_counter_ns()
-        heap_sort(Data,drawData,0)
-        end += (perf_counter_ns() - start)/(10**6)
-    file.write(f'\n     Heap Sort : {end/500} ms')
-    print(f'Heap Sort for n = {size} DONE!! {end/500} ms')
+        heap_sort(x,drawData,0)
+        end += (perf_counter_ns() - start)/(500000000)
+    file.write(f'\n         "Heap Sort" : "{end}",')
+    print(f'Heap Sort for n = {size} DONE!! {end} ms')
 def simulate_counting():
     end = 0
     b=[0]*size
     max = 0
-    global data
-    Data = data
-    for i in range(len(Data)):
-        if max < Data[i]: max = Data[i]
+    x = data.copy()
+    print()
+    print(x)
+    for i in range(len(x)):
+        if max < x[i]: max = x[i]
     for i in range(500):
         start = perf_counter_ns()
-        counting_sort(Data,b,max,drawData,0)
-        end += (perf_counter_ns() - start) / (10 ** 6)
-    file.write(f'\n     Counting Sort : {end / 500} ms')
-    print(f'Counting Sort for n = {size} DONE!! {end/500} ms')
+        counting_sort(x,b,max,drawData,0)
+        end += (perf_counter_ns() - start) / (500000000)
+    file.write(f'\n         "Counting Sort" : "{end}",')
+    print(f'Counting Sort for n = {size} DONE!! {end} ms')
 
 
 
 # simulation function
+    def Simulate():
+        global size
+        size = 50
+
+        # setting data for simulation
+        MinEntry.delete(0,'end')
+        MinEntry.insert(0,'1')
+        MaxEntry.delete(0,'end')
+        MaxEntry.insert(0,'830')
+        speedScale.set(0)
+        visual.set(0)
+
+        file.write('{\n   "Simulation Details": [')
+        # simulating from size = 50 to size = 500 (increments by 10)
+        while size <= 470:
+
+            # setting new size and generating new data
+            sizeEntry.delete(0,'end')
+            sizeEntry.insert(0,size)
+            Generate()
+
+            # writing data to file for organizing
+            file.write('\n      {')
+            file.write(f'\n         "Size" : "{size}",')
+
+            # calling simulation functions
+            simulate_merge()
+            simulate_counting()
+            simulate_quick()
+            simulate_heap()
+            simulate_bubble()
+            simulate_selection()
+            simulate_insertion()
+            file.write('\n      },')
+            size += 10
+
+        file.write('\n  ]')
+
 def Simulate():
     global size
     size = 50
@@ -197,8 +241,9 @@ def Simulate():
     speedScale.set(0)
     visual.set(0)
 
+    file.write('{\n   "Simulation Details": [')
     # simulating from size = 50 to size = 500 (increments by 10)
-    while size <= 500:
+    while size <= 470:
 
         # setting new size and generating new data
         sizeEntry.delete(0,'end')
@@ -206,7 +251,8 @@ def Simulate():
         Generate()
 
         # writing data to file for organizing
-        file.write(f'\nSize = {size} : ')
+        file.write('\n      {')
+        file.write(f'\n         "Size" : "{size}",')
 
         # calling simulation functions
         simulate_merge()
@@ -216,10 +262,10 @@ def Simulate():
         simulate_bubble()
         simulate_selection()
         simulate_insertion()
-
+        file.write('\n      },')
         size += 10
 
-
+    file.write('\n  ]')
 
 # calling algorithm functions
 def startAlgorithm():

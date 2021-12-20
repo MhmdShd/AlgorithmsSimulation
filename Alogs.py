@@ -200,15 +200,16 @@ def partition(data, head, tail, drawData, speed, visual=False):
 
         # drawing if user chose to
         if visual == True:
+            sleep(speed)
             drawData(data, getColorquick(len(data), head, tail, border, j))
 
-        sleep(speed)
 
     # drawing if user chose to
     if visual == True:
+        sleep(speed)
         drawData(data, getColorquick(len(data), head, tail, border, tail, True))
 
-    sleep(speed)
+
     data[border + 1], data[tail] = data[tail], data[border + 1]
 
     return border + 1
