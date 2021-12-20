@@ -17,7 +17,9 @@ import random
 
 from Alogs import *
 
-file = open('Simulationn-algo.txt','w')  # open/create Simulation file to write data
+from Graph import Plot
+
+file = None
 
 
 root = Tk()   # Application initialization
@@ -42,6 +44,7 @@ size = 0  # size of the array for simulation
 # Drawing Function for visualisation
 
 def drawData(data,color):
+
 
     # canvas settings
     canvas.delete('all')
@@ -102,7 +105,7 @@ def Generate(visual=True):
 # simulation functions
 def simulate_quick():
     end = 0
-
+    global file
     # calling function 500 times for average run time
     for i in range(500):
 
@@ -123,6 +126,7 @@ def simulate_quick():
 # same comments for the rest of these simulation functions
 def simulate_bubble():
     end = 0
+    global file
     for i in range(500):
         Generate(False)
         start = perf_counter_ns()
@@ -132,6 +136,7 @@ def simulate_bubble():
     print(f'Bubble Sort for n = {size} DONE!! {end} ms')
 def simulate_insertion():
     end = 0
+    global file
     for i in range(500):
         Generate(False)
         start = perf_counter_ns()
@@ -141,6 +146,7 @@ def simulate_insertion():
     print(f'Insertion Sort for n = {size} DONE!! {end} ms')
 def simulate_selection():
     end = 0
+    global file
     for i in range(500):
         Generate(False)
         start = perf_counter_ns()
@@ -150,6 +156,7 @@ def simulate_selection():
     print(f'Selection Sort for n = {size} DONE!! {end} ms')
 def simulate_merge():
     end = 0
+    global file
     for i in range(500):
         Generate(False)
         start = perf_counter_ns()
@@ -159,6 +166,7 @@ def simulate_merge():
     print(f'Merge Sort for n = {size} DONE!! {end} ms')
 def simulate_heap():
     end = 0
+    global file
     for i in range(500):
         Generate(False)
         start = perf_counter_ns()
@@ -168,6 +176,7 @@ def simulate_heap():
     print(f'Heap Sort for n = {size} DONE!! {end} ms')
 def simulate_counting():
     end = 0
+    global file
     b=[0]*size
     max = 0
     for i in range(500):
@@ -177,54 +186,20 @@ def simulate_counting():
         start = perf_counter_ns()
         counting_sort(data,b,max,drawData,0)
         end += (perf_counter_ns() - start) / (500000000)
+
     file.write(f'\n         "Counting Sort" : "{end}",')
     print(f'Counting Sort for n = {size} DONE!! {end} ms')
 
 
 
 # simulation function
-    def Simulate():
-        global size
-        size = 50
-
-        # setting data for simulation
-        MinEntry.delete(0,'end')
-        MinEntry.insert(0,'1')
-        MaxEntry.delete(0,'end')
-        MaxEntry.insert(0,'830')
-        speedScale.set(0)
-        visual.set(0)
-
-        file.write('{\n   "Simulation Details": [')
-        # simulating from size = 50 to size = 500 (increments by 10)
-        while size <= 470:
-
-            # setting new size and generating new data
-            sizeEntry.delete(0,'end')
-            sizeEntry.insert(0,size)
-            Generate()
-
-            # writing data to file for organizing
-            file.write('\n      {')
-            file.write(f'\n         "Size" : "{size}",')
-
-            # calling simulation functions
-            simulate_merge()
-            simulate_counting()
-            simulate_quick()
-            simulate_heap()
-            simulate_bubble()
-            simulate_selection()
-            simulate_insertion()
-            file.write('\n      },')
-            size += 10
-
-        file.write('\n  ]')
 
 def Simulate():
     global size
     size = 50
+    global file
 
+    file = open('Simulation-algo.txt', 'w')  # open/create Simulation file to write data
     # setting data for simulation
     MinEntry.delete(0,'end')
     MinEntry.insert(0,'1')
@@ -235,13 +210,16 @@ def Simulate():
 
     file.write('{\n   "Simulation Details": [')
     # simulating from size = 50 to size = 500 (increments by 10)
-    while size <= 470:
+
+    while size <= 500:
 
         # setting new size and generating new data
         sizeEntry.delete(0,'end')
         sizeEntry.insert(0,size)
 
         # writing data to file for organizing
+        if size > 50:
+            file.write(',')
         file.write('\n      {')
         file.write(f'\n         "Size" : "{size}",')
 
@@ -253,10 +231,12 @@ def Simulate():
         simulate_bubble()
         simulate_selection()
         simulate_insertion()
-        file.write('\n      },')
-        size += 10
+        file.write('\n      }')
+        size +=10
 
-    file.write('\n  ]')
+    file.write('\n  ]\n}')
+    file.close()
+    Plot()
 
 # calling algorithm functions
 def startAlgorithm():
