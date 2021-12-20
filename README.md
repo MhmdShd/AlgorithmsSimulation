@@ -1,4 +1,4 @@
-# AlgorithmsSimulation
+# SortingAlgorithmsSimulation
 
 UI Python Project for sorting alogorithm visualisation and Simulation
 
