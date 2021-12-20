@@ -60,6 +60,7 @@ def getColorheap(datalen, I, large, l, r):
 #  Insertion Sort
 
 def insertion_sort(data, drawData, speed, visual=False):
+
     for j in range(1, len(data)):
         x = data[j]
         i = j - 1
@@ -257,3 +258,4 @@ def counting_sort(data, b, k, drawData, speed, visual=False):
 
         sleep(speed)
         c[data[j]] -= 1
+    print(b)

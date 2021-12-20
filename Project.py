@@ -28,13 +28,17 @@ data = []  # main array
 
 size = 0  # size of the array for simulation
 
+userFile = None  # file for user
+
+userArray = []  # array for user
+
 
 # Drawing Function for visualisation
 
 def drawData(data, color):
     # canvas settings
     canvas.delete('all')
-    c_height = 830
+    c_height = 680
     c_width = 1800
 
     # var width
@@ -59,7 +63,7 @@ def drawData(data, color):
 # Generate random Array values ( rectangle height )
 def Generate(visual=True):
     global data
-    global Data
+
     # Getting values from user input
     minval = int(MinEntry.get())
     maxval = int(MaxEntry.get())
@@ -68,7 +72,7 @@ def Generate(visual=True):
     # settings some conditions for the values
     if minval > maxval: minval, maxval = maxval, minval
     if minval < 0: minval = 0
-    if maxval > 830: maxval = 830
+    if maxval > 680: maxval = 680
     if size < 3: size = 3
 
     data = []  # emptying data array
@@ -76,7 +80,6 @@ def Generate(visual=True):
     # generating new random data
     for x in range(size):
         data.append((random.randrange(minval, maxval + 1)))
-    Data = data
 
     # drawing the data
 
@@ -96,7 +99,7 @@ def Simulate():
     MinEntry.delete(0, 'end')
     MinEntry.insert(0, '1')
     MaxEntry.delete(0, 'end')
-    MaxEntry.insert(0, '830')
+    MaxEntry.insert(0, '680')
     speedScale.set(0)
     visual.set(0)
 
@@ -262,11 +265,13 @@ def startAlgorithm():
             bubble_sort(data, drawData, speedScale.get(), True)
         else:
             bubble_sort(data, drawData, speedScale.get())
+
         # coloring all elements green when sorting is complete
         drawData(data, ['green' for x in range(len(data))])
 
     # Insertion Sort
     elif algMenu.get() == 'Insertion Sort':
+
         if visual.get() == 1:
             insertion_sort(data, drawData, speedScale.get(), True)
         else:
@@ -319,11 +324,58 @@ def startAlgorithm():
         drawData(b, ['green' for x in range(len(data))])
 
 
+def addToUserArray():
+    global userArray
+
+    # adds the value to the array
+    userArray.append(int(user_arrayEntry.get()))
+
+    # empty the text box
+    user_arrayEntry.delete(0, 'end')
+
+    # Default value = 0
+    user_arrayEntry.insert(0, '0')
+
+
+def openFile():
+    global userFile
+    global userArray
+
+    # open/create a file to type in the sorted array
+    userFile = open('Sorted_array.txt', 'w')
+
+    # visualize the array
+    if visual == 1:
+        drawData(userArray, ['red' for x in range(len(userArray))])
+
+    b = [0] * len(userArray)
+
+    # max value for the counting sort
+    max = 0
+    for i in range(len(userArray)):
+        if max < userArray[i]: max = userArray[i]
+
+    # calling counting sort
+    counting_sort(userArray, b, max, drawData, speedScale.get(), visual.get())
+
+    # drawing the sorted array if the user chose to
+    if visual == 1:
+        drawData(b, ['green' for x in range(len(userArray))])
+
+    # typing the sorted array inside the opened file
+    for i in range(len(userArray)):
+        userFile.write(f'{b[i]},')
+    userFile.close()
+
+
+    print('File created "Sorted_array.txt" Contains your array sorted!')
+
+
 # Settings up UI Size
 
-UI_frame = Frame(root, width=1800, height=300, bg='grey')
+UI_frame = Frame(root, width=1800, height=450, bg='grey')
 UI_frame.grid(row=0, column=0, padx=10, pady=5)
-canvas = Canvas(root, width=1800, height=830, bg='white')
+canvas = Canvas(root, width=1800, height=680, bg='white')
 canvas.grid(row=1, column=0, pady=5)
 
 # row[0]
@@ -360,7 +412,7 @@ Label(UI_frame, text='Size: ', bg="grey").grid(row=1, column=0, padx=5, pady=5, 
 sizeEntry = Entry(UI_frame)
 sizeEntry.grid(row=1, column=1, padx=5, pady=5, sticky=W)
 
-# minimume value
+# minimum value
 
 Label(UI_frame, text='Min Value: ', bg="grey").grid(row=1, column=2, padx=5, pady=5, sticky=W)
 MinEntry = Entry(UI_frame)
@@ -372,7 +424,22 @@ Label(UI_frame, text='Max Value: ', bg="grey").grid(row=1, column=4, padx=5, pad
 MaxEntry = Entry(UI_frame)
 MaxEntry.grid(row=1, column=5, padx=5, pady=5, sticky=W)
 
-# generate Vutton
+# Generate Button
 Button(UI_frame, text='Generate', command=Generate, bg='yellow').grid(row=1, column=6, padx=5, pady=5)
+
+# Lets the user to enter his own array to sort it
+Label(UI_frame, text='Sort Your Own Array! ( Check Terminal after sorting )', bg="grey").grid(row=2, column=3, padx=5, pady=5, sticky=W)
+
+# receives value from the user
+Label(UI_frame, text='Enter Array: ', bg="grey").grid(row=3, column=0, padx=5, pady=5, sticky=W)
+user_arrayEntry = Entry(UI_frame)
+user_arrayEntry.insert(0, '0')
+user_arrayEntry.grid(row=3, column=1, padx=5, pady=5, sticky=W)
+
+# submit the value and add it to the array
+Button(UI_frame, text='Add Value to array', command=addToUserArray, bg='yellow').grid(row=3, column=2, padx=5, pady=5)
+
+# sort the array the user have created
+Button(UI_frame, text='Get Sorted Array', command=openFile, bg='green').grid(row=3, column=3, padx=5, pady=5)
 
 root.mainloop()
