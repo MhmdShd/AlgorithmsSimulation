@@ -70,7 +70,7 @@ def drawData(data,color):
 
 
 # Generate random Array values ( rectangle height )
-def Generate():
+def Generate(visual=True):
     global data
     global Data
     # Getting values from user input
@@ -94,20 +94,25 @@ def Generate():
     Data = data
 
     # drawing the data
-    drawData(data,['red' for x in range(len(data))])
+
+    if visual == True: # False for Simulation
+        drawData(data,['red' for x in range(len(data))])
 
 
 
 # simulation functions
 def simulate_quick():
     end = 0
-    x = data.copy()
-    print()
-    print(x)
+
     # calling function 500 times for average run time
     for i in range(500):
+
+        # generate new data with no drawing
+        Generate(False)
+
+        # calculating average run time for the algorithm
         start = perf_counter_ns()
-        quick_sort(x, 0, size - 1, drawData, 0)
+        quick_sort(data, 0, size - 1, drawData, 0)
         end += (perf_counter_ns() - start)/(500000000)
 
     # writing data to file
@@ -119,56 +124,46 @@ def simulate_quick():
 # same comments for the rest of these simulation functions
 def simulate_bubble():
     end = 0
-    x = data.copy()
-    print()
-    print(x)
     for i in range(500):
+        Generate(False)
         start = perf_counter_ns()
-        bubble_sort(x,drawData,0)
+        bubble_sort(data,drawData,0)
         end += (perf_counter_ns() - start)/(500000000)
     file.write(f'\n         "Bubble Sort" : "{end}",')
     print(f'Bubble Sort for n = {size} DONE!! {end} ms')
 def simulate_insertion():
     end = 0
-    x = data.copy()
-    print()
-    print(x)
     for i in range(500):
+        Generate(False)
         start = perf_counter_ns()
-        insertion_sort(x,drawData,0)
+        insertion_sort(data,drawData,0)
         end += (perf_counter_ns() - start)/(500000000)
     file.write(f'\n         "Insertion Sort" : "{end}"')
     print(f'Insertion Sort for n = {size} DONE!! {end} ms')
 def simulate_selection():
     end = 0
-    x = data.copy()
-    print()
-    print(x)
     for i in range(500):
+        Generate(False)
         start = perf_counter_ns()
-        selection_sort(x,drawData,0)
+        selection_sort(data,drawData,0)
         end += (perf_counter_ns() - start)/(500000000)
     file.write(f'\n         "Selection Sort" : "{end}",')
     print(f'Selection Sort for n = {size} DONE!! {end} ms')
 def simulate_merge():
     end = 0
-    x = data.copy()
-    print()
-    print(x)
     for i in range(500):
+        Generate(False)
         start = perf_counter_ns()
-        merge_sort(x,0,size-1,drawData,0)
+        merge_sort(data,0,size-1,drawData,0)
         end += (perf_counter_ns() - start)/(500000000)
     file.write(f'\n         "Merge Sort" : "{end}",')
     print(f'Merge Sort for n = {size} DONE!! {end} ms')
 def simulate_heap():
     end = 0
-    x = data.copy()
-    print()
-    print(x)
     for i in range(500):
+        Generate(False)
         start = perf_counter_ns()
-        heap_sort(x,drawData,0)
+        heap_sort(data,drawData,0)
         end += (perf_counter_ns() - start)/(500000000)
     file.write(f'\n         "Heap Sort" : "{end}",')
     print(f'Heap Sort for n = {size} DONE!! {end} ms')
@@ -176,14 +171,12 @@ def simulate_counting():
     end = 0
     b=[0]*size
     max = 0
-    x = data.copy()
-    print()
-    print(x)
-    for i in range(len(x)):
-        if max < x[i]: max = x[i]
     for i in range(500):
+        Generate(False)
+        for i in range(len(data)):
+            if max < data[i]: max = data[i]
         start = perf_counter_ns()
-        counting_sort(x,b,max,drawData,0)
+        counting_sort(data,b,max,drawData,0)
         end += (perf_counter_ns() - start) / (500000000)
     file.write(f'\n         "Counting Sort" : "{end}",')
     print(f'Counting Sort for n = {size} DONE!! {end} ms')
@@ -248,7 +241,6 @@ def Simulate():
         # setting new size and generating new data
         sizeEntry.delete(0,'end')
         sizeEntry.insert(0,size)
-        Generate()
 
         # writing data to file for organizing
         file.write('\n      {')
