@@ -38,7 +38,7 @@ userArray = []  # array for user
 def drawData(data, color):
     # canvas settings
     canvas.delete('all')
-    c_height = 700
+    c_height = 650
     c_width = 1800
 
     # var width
@@ -56,6 +56,9 @@ def drawData(data, color):
         # draws rectangle
         canvas.create_rectangle(x0, y0, x1, y1, fill=color[i])
 
+        # write height value
+        canvas.create_text(x0 + 2, y0, font=("Purisa", 6), anchor=SW, text=str(data[i]))
+
     # update screen
     root.update()
 
@@ -72,7 +75,7 @@ def Generate(visual=True):
     # settings some conditions for the values
     if minval > maxval: minval, maxval = maxval, minval
     if minval < 0: minval = 0
-    if maxval > 700: maxval = 700
+    if maxval > 650: maxval = 650
     if size < 3: size = 3
 
     data = []  # emptying data array
@@ -99,7 +102,7 @@ def Simulate():
     MinEntry.delete(0, 'end')
     MinEntry.insert(0, '1')
     MaxEntry.delete(0, 'end')
-    MaxEntry.insert(0, '700')
+    MaxEntry.insert(0, '650')
     speedScale.set(0)
     visual.set(0)
 
@@ -131,6 +134,8 @@ def Simulate():
 
     file.write('\n  ]\n}')
     file.close()
+
+    # Plot function from Graph.py file
     Plot()
 
 
@@ -244,7 +249,12 @@ def simulate_counting():
 # calling algorithm functions
 def startAlgorithm():
     global data
+    global userArray
+    if userArray:
+        data = []
+        data = userArray
 
+    end = 0
     # if user didn't generate values yet
     if not data:
         return
@@ -252,9 +262,18 @@ def startAlgorithm():
     # quick sort
     if (algMenu.get() == 'Quick Sort'):
         if visual.get() == 1:
+            start = perf_counter_ns()
             quick_sort(data, 0, len(data) - 1, drawData, speedScale.get(), True)
         else:
+            start = perf_counter_ns()
             quick_sort(data, 0, len(data) - 1, drawData, speedScale.get())
+
+        end = perf_counter_ns() - start
+        end /= 10 ** 6
+
+        # sending run time data to Entry
+        durationEntry.delete(0, 'end')
+        durationEntry.insert(0, end)
 
         # coloring all elements green when sorting is finished
         drawData(data, ['green' for x in range(len(data))])
@@ -262,9 +281,18 @@ def startAlgorithm():
     # bubble Sort
     elif algMenu.get() == 'Bubble Sort':
         if visual.get() == 1:
+            start = perf_counter_ns()
             bubble_sort(data, drawData, speedScale.get(), True)
         else:
+            start = perf_counter_ns()
             bubble_sort(data, drawData, speedScale.get())
+
+        end = perf_counter_ns() - start
+        end /= 10 ** 6
+
+        # sending run time data to Entry
+        durationEntry.delete(0, 'end')
+        durationEntry.insert(0, end)
 
         # coloring all elements green when sorting is complete
         drawData(data, ['green' for x in range(len(data))])
@@ -273,27 +301,56 @@ def startAlgorithm():
     elif algMenu.get() == 'Insertion Sort':
 
         if visual.get() == 1:
+            start = perf_counter_ns()
             insertion_sort(data, drawData, speedScale.get(), True)
         else:
+            start = perf_counter_ns()
             insertion_sort(data, drawData, speedScale.get())
+
+        end = perf_counter_ns() - start
+        end /= 10 ** 6
+
+        # sending run time data to Entry
+        durationEntry.delete(0, 'end')
+        durationEntry.insert(0, end)
+
         # coloring all elements green when sorting is finished
         drawData(data, ['green' for x in range(len(data))])
 
     # Selection Sort
     elif algMenu.get() == 'Selection Sort':
         if visual.get() == 1:
+            start = perf_counter_ns()
             selection_sort(data, drawData, speedScale.get(), True)
         else:
+            start = perf_counter_ns()
             selection_sort(data, drawData, speedScale.get())
+
+        end = perf_counter_ns() - start
+        end /= 10 ** 6
+
+        # sending run time data to Entry
+        durationEntry.delete(0, 'end')
+        durationEntry.insert(0, end)
+
         # coloring all elements green when sorting is finished
         drawData(data, ['green' for x in range(len(data))])
 
     # Merge Sort
     elif algMenu.get() == 'Merge Sort':
         if visual.get() == 1:
+            start = perf_counter_ns()
             merge_sort(data, 0, len(data) - 1, drawData, speedScale.get(), True)
         else:
+            start = perf_counter_ns()
             merge_sort(data, 0, len(data) - 1, drawData, speedScale.get())
+
+        end = perf_counter_ns() - start
+        end /= 10 ** 6
+
+        # sending run time data to Entry
+        durationEntry.delete(0, 'end')
+        durationEntry.insert(0, end)
 
         # coloring all elements green when sorting is finished
         drawData(data, ['green' for x in range(len(data))])
@@ -301,9 +358,18 @@ def startAlgorithm():
     # Heap Sort
     elif algMenu.get() == 'Heap Sort':
         if visual.get() == 1:
+            start = perf_counter_ns()
             heap_sort(data, drawData, speedScale.get(), True)
         else:
+            start = perf_counter_ns()
             heap_sort(data, drawData, speedScale.get())
+
+        end = perf_counter_ns() - start
+        end /= 10 ** 6
+
+        # sending run time data to Entry
+        durationEntry.delete(0, 'end')
+        durationEntry.insert(0, end)
 
         # coloring all elements green when sorting is finished
         drawData(data, ['green' for x in range(len(data))])
@@ -316,12 +382,23 @@ def startAlgorithm():
         for i in range(len(data)):
             if max < data[i]: max = data[i]
         if visual.get() == 1:
+            start = perf_counter_ns()
             counting_sort(data, b, max, drawData, speedScale.get(), True)
         else:
+            start = perf_counter_ns()
             counting_sort(data, b, max, drawData, speedScale.get())
+
+        end = perf_counter_ns() - start
+        end /= 10 ** 6
+
+        # sending run time data to Entry
+        durationEntry.delete(0, 'end')
+        durationEntry.insert(0, end)
 
         # coloring all elements green when sorting is finished
         drawData(b, ['green' for x in range(len(data))])
+
+    userArray = []
 
 
 def addToUserArray():
@@ -337,51 +414,17 @@ def addToUserArray():
     user_arrayEntry.insert(0, '0')
 
 
-def openFile():
-    global userFile
-    global userArray
-
-    # open/create a file to type in the sorted array
-    userFile = open('Sorted_array.txt', 'w')
-
-    # visualize the array
-    if visual == 1:
-        drawData(userArray, ['red' for x in range(len(userArray))])
-
-    b = [0] * len(userArray)
-
-    # max value for the counting sort
-    max = 0
-    for i in range(len(userArray)):
-        if max < userArray[i]: max = userArray[i]
-
-    # calling counting sort
-    counting_sort(userArray, b, max, drawData, speedScale.get(), visual.get())
-
-    # drawing the sorted array if the user chose to
-    if visual == 1:
-        drawData(b, ['green' for x in range(len(userArray))])
-
-    # typing the sorted array inside the opened file
-    for i in range(len(userArray)):
-        userFile.write(f'{b[i]},')
-    userFile.close()
-
-
-    print('File created "Sorted_array.txt" Contains your array sorted!')
-
-
 # Settings up UI Size
 
 UI_frame = Frame(root, width=1800, height=450, bg='grey')
 UI_frame.grid(row=0, column=0, padx=10, pady=5)
-canvas = Canvas(root, width=1800, height=700, bg='white')
+canvas = Canvas(root, width=1800, height=650, bg='white')
 canvas.grid(row=1, column=0, pady=5)
 
 # row[0]
 
 # Select Algorithm:
-Label(UI_frame, text='Alogorithm: ', bg="grey").grid(row=0, column=0, padx=5, pady=5, sticky=W)
+Label(UI_frame, text='Alogorithm: ', bg="grey").grid(row=0, column=0, padx=5, pady=5)
 algMenu = ttk.Combobox(UI_frame, values=['Bubble Sort', 'Heap Sort', 'Insertion Sort', 'Selection Sort', 'Quick Sort',
                                          'Counting Sort', 'Merge Sort'])
 algMenu.grid(row=0, column=1, padx=5, pady=5)
@@ -397,9 +440,9 @@ visual = Scale(UI_frame, from_=0, to=1, length=100, digits=2, resolution=1, orie
 visual.grid(row=0, column=3, padx=5, pady=5)
 
 # start button
-Button(UI_frame, text='Start', command=startAlgorithm, bg='green').grid(row=0, column=4, padx=5, pady=5)
+# Button(UI_frame, text='Sort', command=startAlgorithm, bg='green').grid(row=0, column=4, padx=5, pady=5)
 
-Label(UI_frame, text='when clicked, check terminal:', bg='grey').grid(row=0, column=5, pady=5, padx=5)
+Label(UI_frame, text='Check Terminal -> ', bg='grey').grid(row=0, column=5, pady=5, padx=5)
 
 # simulation button (don't click, it will take alot of time to finish)
 Button(UI_frame, text='Simulate', command=Simulate, bg='red').grid(row=0, column=6, padx=5, pady=5)
@@ -428,10 +471,10 @@ MaxEntry.grid(row=1, column=5, padx=5, pady=5, sticky=W)
 Button(UI_frame, text='Generate', command=Generate, bg='yellow').grid(row=1, column=6, padx=5, pady=5)
 
 # Lets the user to enter his own array to sort it
-Label(UI_frame, text='Sort Your Own Array! ( Check Terminal after sorting )', bg="grey").grid(row=2, column=3, padx=5, pady=5, sticky=W)
+Label(UI_frame, text='Sort Your Own Array!', bg="grey").grid(row=2, column=1, padx=5, pady=5, sticky=W)
 
 # receives value from the user
-Label(UI_frame, text='Enter Array: ', bg="grey").grid(row=3, column=0, padx=5, pady=5, sticky=W)
+Label(UI_frame, text='Array: ', bg="grey").grid(row=3, column=0, padx=5, pady=5, sticky=W)
 user_arrayEntry = Entry(UI_frame)
 user_arrayEntry.insert(0, '0')
 user_arrayEntry.grid(row=3, column=1, padx=5, pady=5, sticky=W)
@@ -440,6 +483,10 @@ user_arrayEntry.grid(row=3, column=1, padx=5, pady=5, sticky=W)
 Button(UI_frame, text='Add Value to array', command=addToUserArray, bg='yellow').grid(row=3, column=2, padx=5, pady=5)
 
 # sort the array the user have created
-Button(UI_frame, text='Get Sorted Array', command=openFile, bg='green').grid(row=3, column=3, padx=5, pady=5)
+Button(UI_frame, text='Sort Array', command=startAlgorithm, bg='green').grid(row=3, column=6, padx=5, pady=5)
 
+# run time of sorting
+Label(UI_frame, text='Run Time [ms]: ', bg="grey").grid(row=3, column=3, padx=5, pady=5, sticky=W)
+durationEntry = Entry(UI_frame)
+durationEntry.grid(row=3, column=4, padx=5, pady=5)
 root.mainloop()
