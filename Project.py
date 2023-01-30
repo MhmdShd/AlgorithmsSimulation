@@ -1,7 +1,7 @@
 #  Friendly Program for some Sorting Algorithms Visualization
 
-#  Written by Mhmd Ali
-#  Discord: Andr0x#8929
+#  Written by Mohamad Ali
+#  Discord: Andr0x#1234
 #  Github: https://github.com/MhmdShd
 
 
